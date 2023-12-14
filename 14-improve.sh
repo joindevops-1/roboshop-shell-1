@@ -25,9 +25,9 @@ echo "script stareted executing at $TIMESTAMP" &>> $LOGFILE
 VALIDATE(){
     if [ $1 -ne 0 ]
     then
-        echo -e "$2 ... $R FAILED $N"
+        echo -e "$2 ... $R FAILED $N" | tee -a &>> $LOGFILE
     else
-        echo -e "$2 ... $G SUCCESS $N"
+        echo -e "$2 ... $G SUCCESS $N" | tee -a &>> $LOGFILE
     fi
 }
 
@@ -45,7 +45,6 @@ do
     if [ $? -ne 0 ]
     then
         yum install $package -y &>> $LOGFILE
-        echo "$package installation ... $G SUCCESS $N"
         VALIDATE $? "Installation of $package" # validate
     else
         echo -e "$package is already installed ... $Y SKIPPING $N"
