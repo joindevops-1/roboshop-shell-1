@@ -15,7 +15,7 @@ SCRIPT_NAME_WITHOUT_EXT="${SCRIPT_NAME%.*}"
 exec 3>> "/tmp/$SCRIPT_NAME_WITHOUT_EXT-$(date +%F-%H-%M-%S).log"
 
 # Redirect all logs to file descriptor 3
-exec &>3
+exec &>3 2>&3
 
 ID=$(id -u)
 R="\e[31m"
