@@ -1,6 +1,15 @@
 #!/bin/bash
 set -e
 
+catch_errors() {
+    ret=$?
+    echo "Error occurred in script at line $1"
+    exit $ret
+}
+
+# Trap errors and call the function with the line number
+trap 'catch_errors $LINENO' ERR
+
 ID=$(id -u)
 R="\e[31m"
 G="\e[32m"
