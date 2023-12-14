@@ -47,7 +47,7 @@ do
     yum list installed $package &>> $LOGFILE #check installed or not
     if [ $? -ne 0 ] #if not installed
     then
-        yum install $package -y &>> || {
+        yum install $package -y &>>$LOGFILE || {
             echo "Error occurred while installing $package" &>> "$LOGFILE"
             catch_errors $LINENO # Trigger the error handling function
         }
