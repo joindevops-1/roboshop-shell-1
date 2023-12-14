@@ -1,14 +1,18 @@
 #!/bin/bash
 set -ex
 
-catch_errors() {
-    ret=$?
-    echo "Error occurred in script at line $1"
-    exit $ret
+error() {
+  local parent_lineno="$1"
+  local message="$2"
+  local code="${3:-1}"
+  if [[ -n "$message" ]] ; then
+    echo "Error on or near line ${parent_lineno}: ${message}; exiting with status ${code}"
+  else
+    echo "Error on or near line ${parent_lineno}; exiting with status ${code}"
+  fi
+  exit "${code}"
 }
-
-# Trap errors and call the function with the line number
-trap 'catch_errors $LINENO' ERR
+trap 'error ${LINENO}' ERR
 
 ID=$(id -u)
 R="\e[31m"
