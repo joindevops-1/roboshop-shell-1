@@ -10,6 +10,11 @@ catch_errors() {
 # Trap errors and call the function with the line number
 trap 'catch_errors $LINENO' ERR
 
+exec 3>> "/tmp/$0-$(date +%F-%H-%M-%S).log"
+
+# Redirect all logs to file descriptor 3
+exec &>3
+
 ID=$(id -u)
 R="\e[31m"
 G="\e[32m"
@@ -19,16 +24,7 @@ N="\e[0m"
 TIMESTAMP=$(date +%F-%H-%M-%S)
 LOGFILE="/tmp/$0-$TIMESTAMP.log"
 
-echo "script stareted executing at $TIMESTAMP" &>> $LOGFILE
-
-# VALIDATE(){
-#     if [ $1 -ne 0 ]
-#     then
-#         echo -e "$2 ... $R FAILED $N"
-#     else
-#         echo -e "$2 ... $G SUCCESS $N"
-#     fi
-# }
+echo "script stareted executing at $TIMESTAMP" 
 
 if [ $ID -ne 0 ]
 then
@@ -36,22 +32,17 @@ then
     exit 1 # you can give other than 0
 else
     echo "You are root user"
-fi # fi means reverse of if, indicating condition end
-
-#echo "All arguments passed: $@"
-# git mysql postfix net-tools
-# package=git for first time
+fi
 
 for package in $@
 do
-    yum list installed $package &>> $LOGFILE #check installed or not
+    yum list installed $package  #check installed or not
     if [ $? -ne 0 ] #if not installed
     then
-        yum install $package -y &>>$LOGFILE || {
-            echo "Error occurred while installing $package" &>> "$LOGFILE"
-            catch_errors $LINENO "installing $package" # Trigger the error handling function
-        }
+        yum install $package -y &>>$LOGFILE
     else
         echo -e "$package is already installed ... $Y SKIPPING $N"
     fi
 done
+
+exec 3>&-
