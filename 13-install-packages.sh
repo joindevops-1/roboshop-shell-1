@@ -49,7 +49,7 @@ do
     then
         yum install $package -y &>>$LOGFILE || {
             echo "Error occurred while installing $package" &>> "$LOGFILE"
-            catch_errors $LINENO # Trigger the error handling function
+            catch_errors $LINENO "installing $package" # Trigger the error handling function
         }
     else
         echo -e "$package is already installed ... $Y SKIPPING $N"
