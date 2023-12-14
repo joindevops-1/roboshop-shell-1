@@ -19,15 +19,16 @@ N="\e[0m"
 
 TIMESTAMP=$(date +%F-%H-%M-%S)
 LOGFILE="/tmp/$0-$TIMESTAMP.log"
+exec &>$LOGFILE
 
-echo "script stareted executing at $TIMESTAMP" &>> $LOGFILE
+echo "script stareted executing at $TIMESTAMP"
 
 VALIDATE(){
     if [ $1 -ne 0 ]
     then
-        echo -e "$2 ... $R FAILED $N" | tee -a "$LOGFILE" &>> "$LOGFILE"
+        echo -e "$2 ... $R FAILED $N" | tee -a "$LOGFILE"
     else
-        echo -e "$2 ... $G SUCCESS $N" | tee -a "$LOGFILE" &>> "$LOGFILE"
+        echo -e "$2 ... $G SUCCESS $N" | tee -a "$LOGFILE"
     fi
 }
 
@@ -41,12 +42,12 @@ fi
 
 for package in $@
 do
-    yum list installed $package &>> $LOGFILE
+    yum list installed $package
     if [ $? -ne 0 ]
     then
-        yum install $package -y &>> $LOGFILE
+        yum install $package -y
         VALIDATE $? "Installation of $package" # validate
     else
-        echo -e "$package is already installed ... $Y SKIPPING $N" | tee -a "$LOGFILE" &>> "$LOGFILE"
+        echo -e "$package is already installed ... $Y SKIPPING $N" | tee -a "$LOGFILE"
     fi
 done
