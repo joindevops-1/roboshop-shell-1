@@ -41,7 +41,7 @@ do
     yum list installed $package  #check installed or not
     if [ $? -ne 0 ] #if not installed
     then
-        yum install $package -y &>>$LOGFILE
+        yum install $package -y
     else
         echo -e "$package is already installed ... $Y SKIPPING $N"
     fi
