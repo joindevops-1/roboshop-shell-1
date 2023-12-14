@@ -1,18 +1,14 @@
 #!/bin/bash
 set -ex
 
-error() {
-  local parent_lineno="$1"
-  local message="$2"
-  local code="${3:-1}"
-  if [[ -n "$message" ]] ; then
-    echo "Error on or near line ${parent_lineno}: ${message}; exiting with status ${code}"
-  else
-    echo "Error on or near line ${parent_lineno}; exiting with status ${code}"
-  fi
-  exit "${code}"
+catch_errors() {
+    ret=$?
+    echo "Error occurred in script at line $1"
+    exit $ret
 }
-trap 'error ${LINENO}' ERR
+
+# Trap errors and call the function with the line number
+trap 'catch_errors $LINENO' ERR
 
 ID=$(id -u)
 R="\e[31m"
@@ -51,8 +47,10 @@ do
     yum list installed $package &>> $LOGFILE #check installed or not
     if [ $? -ne 0 ] #if not installed
     then
-        yum install $package -y &>> $LOGFILE # install the package
-        #VALIDATE $? "Installation of $package" # validate
+        yum install $package -y &>> || {
+            echo "Error occurred while installing $package" &>> "$LOGFILE"
+            catch_errors $LINENO # Trigger the error handling function
+        }
     else
         echo -e "$package is already installed ... $Y SKIPPING $N"
     fi
