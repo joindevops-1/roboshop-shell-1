@@ -9,8 +9,9 @@ catch_errors() {
 
 # Trap errors and call the function with the line number
 trap 'catch_errors $LINENO' ERR
+SCRIPT_NAME_WITHOUT_EXT="${$0%.*}"
 
-exec 3>> "/tmp/$0-$(date +%F-%H-%M-%S).log"
+exec 3>> "/tmp/$SCRIPT_NAME_WITHOUT_EXT-$(date +%F-%H-%M-%S).log"
 
 # Redirect all logs to file descriptor 3
 exec &>3
