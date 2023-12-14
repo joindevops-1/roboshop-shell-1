@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 ID=$(id -u)
 R="\e[31m"
@@ -11,14 +12,14 @@ LOGFILE="/tmp/$0-$TIMESTAMP.log"
 
 echo "script stareted executing at $TIMESTAMP" &>> $LOGFILE
 
-VALIDATE(){
-    if [ $1 -ne 0 ]
-    then
-        echo -e "$2 ... $R FAILED $N"
-    else
-        echo -e "$2 ... $G SUCCESS $N"
-    fi
-}
+# VALIDATE(){
+#     if [ $1 -ne 0 ]
+#     then
+#         echo -e "$2 ... $R FAILED $N"
+#     else
+#         echo -e "$2 ... $G SUCCESS $N"
+#     fi
+# }
 
 if [ $ID -ne 0 ]
 then
@@ -38,7 +39,7 @@ do
     if [ $? -ne 0 ] #if not installed
     then
         yum install $package -y &>> $LOGFILE # install the package
-        VALIDATE $? "Installation of $package" # validate
+        #VALIDATE $? "Installation of $package" # validate
     else
         echo -e "$package is already installed ... $Y SKIPPING $N"
     fi
