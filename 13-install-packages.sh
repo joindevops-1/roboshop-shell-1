@@ -12,10 +12,7 @@ trap 'catch_errors $LINENO' ERR
 SCRIPT_NAME=$0
 SCRIPT_NAME_WITHOUT_EXT="${SCRIPT_NAME%.*}"
 
-exec 3>> "/tmp/$SCRIPT_NAME_WITHOUT_EXT-$(date +%F-%H-%M-%S).log"
-
-# Redirect all logs to file descriptor 3
-exec &>3 2>&3
+exec >"/tmp/$SCRIPT_NAME_WITHOUT_EXT-$(date +%F-%H-%M-%S).log" 2>&1
 
 ID=$(id -u)
 R="\e[31m"
@@ -42,9 +39,8 @@ do
     if [ $? -ne 0 ] #if not installed
     then
         yum install $package -y
+        echo -e "$package installed ... $G SUCCESS $N"
     else
         echo -e "$package is already installed ... $Y SKIPPING $N"
     fi
 done
-
-exec 3>&-
