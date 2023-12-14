@@ -3,7 +3,7 @@ set -ex
 
 catch_errors() {
     ret=$?
-    echo "Error occurred in script at line $1"
+    echo "Error occurred in script at line $1, message: $2"
     exit $ret
 }
 
