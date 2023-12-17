@@ -3,7 +3,7 @@
 SOURCE="/tmp/shell-logss"
 
 if [ ! -d "$directory" ]; then
-    echo "$SOURCE does not exists."
+    echo -e "\e[31m $SOURCE does not exists. \e[0m"
     exit 1
 fi
 FILES_TO_DELETE=$(find $SOURCE -type f -name "*.log" -mtime +14)
