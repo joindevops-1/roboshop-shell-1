@@ -5,7 +5,7 @@ ALERT_TYPE=$2
 #BODY=$(sed -e 's/[]\/$*.^[]/\\&/g' <<< $3)
 #BODY=$3
 ESCAPED_BODY=$(printf '%s\n' "$3" | sed -e 's/[]\/$*.^[]/\\&/g')
-echo "Body: $BODY"
+echo "Body: $ESCAPED_BODY"
 SUBJECT=$4
 TO_ADDRESS=$5
 
