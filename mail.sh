@@ -3,7 +3,7 @@
 TO_TEAM=$1
 ALERT_TYPE=$2
 BODY==$(sed -e 's/[]\/$*.^[]/\\&/g' <<< $3)
-BODY=$3
+#BODY=$3
 echo "Body: $BODY"
 SUBJECT=$4
 TO_ADDRESS=$5
