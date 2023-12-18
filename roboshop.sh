@@ -21,7 +21,7 @@ do
     else
         INSTANCE_ID=$(aws ec2 run-instances --image-id $IMAGE_ID --instance-type $INSTANCE_TYPE --security-group-ids $SG_ID --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" --query 'Instances[0].InstanceId' --output text)
         sleep 60
-        aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Instances[0].PublicIpAddress' --output text
+        IP_ADDRESS=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Instances[0].PublicIpAddress' --output text)
     fi
     echo "Instance: $IP_ADDRESS "
 done
