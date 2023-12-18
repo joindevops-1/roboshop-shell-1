@@ -3,13 +3,14 @@
 INSTANCES=("mongodb" "redis" "mysql" "rabbitmq" "catalogue" "user" "cart" "shipping" "payment" "web")
 HOSTED_ZONE="daws76s.online"
 IMAGE_ID="ami-03265a0778a880afb"
-INSTANCE_TYPE="t2.micro"
+#INSTANCE_TYPE="t2.micro"
 SG_ID="sg-087e7afb3a936fce7"
 
 #create instance
 for instance in "${INSTANCES[@]}"
 do
     echo "creating instance for: $instance"
+    INSTANCE_TYPE="t2.micro"
     if [[ $instance == "mongodb" || $instance == "mysql" || $instance == "shipping" ]]
     then
         INSTANCE_TYPE="t3.small"
