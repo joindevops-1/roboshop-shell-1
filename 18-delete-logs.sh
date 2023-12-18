@@ -53,8 +53,7 @@ find_files
 
 if [ "$action" == "delete" ]
 then
-    if [ -n $FILES ]
-    then
+    if [ -n "$FILES" ]; then
         while IFS= read -r line
         do
             echo "Deleting file: $line"
