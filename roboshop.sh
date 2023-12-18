@@ -10,7 +10,7 @@ ZONE_ID=$(aws route53 list-hosted-zones --query "HostedZones[?Name == '$HOSTED_Z
 
 if [ -n "$ZONE_ID" ]; then
     echo "Hosted zone '$HOSTED_ZONE' exists with ID: $ZONE_ID"
-    ZONE_ID=$(echo $ZONE_ID | cut -d / -f2)
+    ZONE_ID=$(echo $ZONE_ID | cut -d / -f3)
 else
     echo "Hosted zone '$HOSTED_ZONE' does not exist."
     exit 1
