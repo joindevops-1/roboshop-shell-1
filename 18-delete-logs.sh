@@ -74,9 +74,8 @@ then
     fi
     last_part=$(basename "$source_dir")
     timestamp=$(date +%F-%H-%M-%S)
-    archive_name="$last_part-$timestamp.tar"
-    printf '%s\0' $FILES | tar -cf "$destination/$archive_name" --null -T -
+    archive_name="$last_part-$timestamp.tar.gz"
+    printf '%s\0' $FILES | tar -czf "$destination/$archive_name" --null -T -
     echo "Archive is Done: $archive_name"
 fi
-
 
