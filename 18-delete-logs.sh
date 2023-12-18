@@ -22,3 +22,10 @@ while getopts ":s:a:d:t:m:" opt; do
     :) echo "Option -$OPTARG requires an argument." >&2; display_usage; exit 1 ;;
   esac
 done
+
+# Check for required input
+if [ -z "$source_dir" ] || [ -z "$action" ]; then
+  echo "Error: Missing required input."
+  display_usage
+  exit 1
+fi
