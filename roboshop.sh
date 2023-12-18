@@ -6,7 +6,7 @@ IMAGE_ID="ami-03265a0778a880afb"
 #INSTANCE_TYPE="t2.micro"
 SG_ID="sg-087e7afb3a936fce7"
 
-ZONE_ID=aws route53 list-hosted-zones --query "HostedZones[?Name == '$HOSTED_ZONE.'].Id" --output text
+ZONE_ID=$(aws route53 list-hosted-zones --query "HostedZones[?Name == '$HOSTED_ZONE.'].Id" --output text)
 
 if [ -n "$ZONE_ID" ]; then
     echo "Hosted zone '$HOSTED_ZONE_NAME' exists with ID: $ZONE_ID"
