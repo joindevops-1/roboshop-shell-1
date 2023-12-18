@@ -3,7 +3,7 @@ TIMESTAMP=$(date +%F-%H-%M-%S)
 LOGFILE=$(basename "$0")
 #echo "basename: $LOGFILE"
 #LOGFILE="$0.log"
-exec &> ~/$LOGFILE
+exec &>> ~/$LOGFILE
 
 echo "script stareted executing at $TIMESTAMP"
 days=14
