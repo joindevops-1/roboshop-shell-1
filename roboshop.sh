@@ -10,7 +10,7 @@ SG_ID="sg-087e7afb3a936fce7"
 for instance in "${INSTANCES[@]}"
 do
     echo "creating instance for: $instance"
-    if [[ $instance = "mongodb" || $instance = "mysql" || $instance = "shipping" ]]
+    if [[ $instance == "mongodb" || $instance == "mysql" || $instance == "shipping" ]]
     then
         INSTANCE_TYPE="t3.small"
     fi
