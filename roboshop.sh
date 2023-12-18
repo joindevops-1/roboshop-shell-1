@@ -9,9 +9,10 @@ SG_ID="sg-087e7afb3a936fce7"
 ZONE_ID=$(aws route53 list-hosted-zones --query "HostedZones[?Name == '$HOSTED_ZONE.'].Id" --output text)
 
 if [ -n "$ZONE_ID" ]; then
-    echo "Hosted zone '$HOSTED_ZONE_NAME' exists with ID: $ZONE_ID"
+    echo "Hosted zone '$HOSTED_ZONE' exists with ID: $ZONE_ID"
+    ZONE_ID=$(echo $ZONE_ID | cut -d / -f2)
 else
-    echo "Hosted zone '$HOSTED_ZONE_NAME' does not exist."
+    echo "Hosted zone '$HOSTED_ZONE' does not exist."
     exit 1
 fi
 
@@ -33,4 +34,24 @@ do
         IP_ADDRESS=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
     fi
     echo "Instance: $IP_ADDRESS "
+        # Record doesn't exist, create it
+    aws route53 change-resource-record-sets --hosted-zone-id "$ZONE_ID" \
+    --change-batch '{
+        "Changes": [
+        {
+            "Action": "CREATE",
+            "ResourceRecordSet": {
+            "Name": "'"$instance.$HOSTED_ZONE"'",
+            "Type": "A",
+            "TTL": 300,
+            "ResourceRecords": [
+                {
+                "Value": "'"$IP_ADDRESS"'"
+                }
+            ]
+            }
+        }
+        ]
+    }'
+    echo "Record '$RECORD_NAME' created."
 done
