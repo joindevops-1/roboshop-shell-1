@@ -53,7 +53,7 @@ find_files
 
 if [ "$action" == "delete" ]
 then
-    if [ -z $FILES ]
+    if [ -n $FILES ]
     then
         while IFS= read -r line
         do
