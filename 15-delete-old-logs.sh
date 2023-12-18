@@ -2,7 +2,7 @@
 
 SOURCE="/tmp/shellscript-logs"
 
-if [ ! -d "$directory" ]; then
+if [ ! -d "$SOURCE" ]; then
     echo -e "\e[31m $SOURCE does not exists. \e[0m"
     exit 1
 fi
