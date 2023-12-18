@@ -1,7 +1,7 @@
 #!/bin/bash
 TIMESTAMP=$(date +%F-%H-%M-%S)
 LOGFILE=$(basename "$0")
-echo "basename: $LOGFILE"
+#echo "basename: $LOGFILE"
 #LOGFILE="$0.log"
 exec &> ~/$LOGFILE
 
