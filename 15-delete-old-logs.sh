@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SOURCE="/tmp/shell-logss"
+SOURCE="/tmp/shellscript-logs"
 
 if [ ! -d "$directory" ]; then
     echo -e "\e[31m $SOURCE does not exists. \e[0m"
