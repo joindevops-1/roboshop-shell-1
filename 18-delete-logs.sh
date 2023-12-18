@@ -1,8 +1,8 @@
 #!/bin/bash
 TIMESTAMP=$(date +%F-%H-%M-%S)
 LOGFILE=$(basename "$0")
-LOGFILE="~/$0.log"
-exec &>$LOGFILE
+LOGFILE="$0.log"
+exec &> ~/$LOGFILE
 
 echo "script stareted executing at $TIMESTAMP"
 days=14
