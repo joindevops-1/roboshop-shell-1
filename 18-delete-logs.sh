@@ -71,10 +71,14 @@ then
         echo "Error: Destination directory does not exist."
         exit 1
     fi
-    last_part=$(basename "$source_dir")
-    timestamp=$(date +%F-%H-%M-%S)
-    archive_name="$last_part-$timestamp.tar.gz"
-    printf '%s\0' $FILES | tar -czf "$destination/$archive_name" --null -T -
-    echo "Archive is Done: $archive_name"
+    if [ -n "$FILES" ]; then
+        last_part=$(basename "$source_dir")
+        timestamp=$(date +%F-%H-%M-%S)
+        archive_name="$last_part-$timestamp.tar.gz"
+        printf '%s\0' $FILES | tar -czf "$destination/$archive_name" --null -T -
+        echo "Archive is Done: $archive_name"
+    else
+        echo "No files to archive."
+    fi
 fi
 
