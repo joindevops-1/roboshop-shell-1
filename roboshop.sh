@@ -15,6 +15,6 @@ do
     then
         INSTANCE_TYPE="t3.small"
     fi
-    IP_ADDRESS=$(aws ec2 run-instances --image-id $IMAGE_ID --instance-type $INSTANCE_TYPE --security-group-ids $SG_ID --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" --query 'Instances[0].[PrivateIpAddress]')
-    echo "Instance: $IP_ADDRESS --output text"
+    IP_ADDRESS=$(aws ec2 run-instances --image-id $IMAGE_ID --instance-type $INSTANCE_TYPE --security-group-ids $SG_ID --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" --query 'Instances[0].PrivateIpAddress' --output text)
+    echo "Instance: $IP_ADDRESS "
 done
