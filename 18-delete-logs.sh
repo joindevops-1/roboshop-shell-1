@@ -1,4 +1,8 @@
 #!/bin/bash
+
+days=14
+FILES=""
+
 display_usage() {
     echo "Usage: $0 -s <source-dir> -a <archive|delete> [-d <destination>] [-t <days>] [-m <memory-in-mb>]"
     echo "Options:"
@@ -8,8 +12,6 @@ display_usage() {
     echo "  -t <days>: Number of days (default: 14)"
     echo "  -m <memory-in-mb>: Memory limit in MB (optional)"
 }
-
-days=14
 
 while getopts ":s:a:d:t:m:" opt; do
   case $opt in
@@ -23,9 +25,58 @@ while getopts ":s:a:d:t:m:" opt; do
   esac
 done
 
+
+
+find_files(){
+    if [ -n "$memory" ]; 
+    then
+        FILES=$(find "$source_dir" -type f -size -"${memory}"k -mtime +"$days")
+    else
+        FILES=$(find "$source_dir" -type f -mtime +"$days")
+    fi
+}
+
 # Check for required input
 if [ -z "$source_dir" ] || [ -z "$action" ]; then
   echo "Error: Missing required input."
   display_usage
   exit 1
 fi
+
+# Check if source directory exists
+if [ ! -d "$source_dir" ]; then
+  echo "Error: Source directory does not exist."
+  exit 1
+fi
+
+find_files
+
+if [ "$action" == "delete" ]
+then
+    if [ -z $FILES ]
+    then
+        while IFS= read -r line
+        do
+            echo "Deleting file: $line"
+            rm -rf $line
+        done <<< $FILES
+    fi
+elif [ "$action" == "archive" ]
+then
+    if [ -z "$destination" ]; then
+        echo "Error: Destination directory not provided for archive action."
+        display_usage
+        exit 1
+    fi
+    if [ ! -d "$destination" ]; then
+        echo "Error: Destination directory does not exist."
+        exit 1
+    fi
+    last_part=$(basename "$source_dir")
+    timestamp=$(date +%F-%H-%M-%S)
+    archive_name="$last_part-$timestamp.tar.gz"
+    tar -czvf $archive_name $destination
+    echo "Archive is Done: $archive_name"
+fi
+
+
