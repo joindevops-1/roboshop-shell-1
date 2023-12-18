@@ -75,7 +75,7 @@ then
         last_part=$(basename "$source_dir")
         timestamp=$(date +%F-%H-%M-%S)
         archive_name="$last_part-$timestamp.tar.gz"
-        printf '%s\0' $FILES | tar -czf "$destination/$archive_name" -C "$last_part-archive"  --null -T -
+        printf '%s\0' $FILES | tar -czf "$destination/$archive_name" --null -T -
         echo "Archive is Done: $archive_name"
     else
         echo "No files to archive."
