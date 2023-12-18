@@ -30,9 +30,9 @@ done
 find_files(){
     if [ -n "$memory" ]; 
     then
-        FILES=$(find "$source_dir" -type f -size -"${memory}"k -mtime +"$days")
+        FILES=$(find "$source_dir" -type f -size -"${memory}"k -name "*.log" -mtime +"$days")
     else
-        FILES=$(find "$source_dir" -type f -mtime +"$days")
+        FILES=$(find "$source_dir" -type f -name "*.log" -mtime +"$days")
     fi
 }
 
@@ -75,7 +75,7 @@ then
     last_part=$(basename "$source_dir")
     timestamp=$(date +%F-%H-%M-%S)
     archive_name="$last_part-$timestamp.tar.gz"
-    tar -czvf $archive_name $destination
+    echo "$FILES" | tar -cf "$destination/$archive_name" --null -T -
     echo "Archive is Done: $archive_name"
 fi
 
