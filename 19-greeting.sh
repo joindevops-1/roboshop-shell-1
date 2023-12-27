@@ -7,8 +7,9 @@ usage() {
   echo "  -w, --wishes <wishes>  Specify the wishes (mandatory)"
   echo "  -h, --help             Display this help and exit"
 }
+
 NAME=""
-WISHES=""
+WISHES="Good Evening"
 while getopts ":n:w:h" opt; do
   case $opt in
     n) NAME="$OPTARG";;

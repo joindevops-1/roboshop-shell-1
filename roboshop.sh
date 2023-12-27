@@ -1,6 +1,6 @@
 #!/bin/bash
 
-INSTANCES=("mongodb" "redis" "mysql" "rabbitmq" "catalogue" "user" "cart" "shipping" "payment" "web")
+INSTANCES=("mongodb-$1" "redis-$1" "mysql-$1" "rabbitmq-$1" "catalogue-$1" "user-$1" "cart-$1" "shipping-$1" "payment-$1" "web-$1")
 HOSTED_ZONE="daws76s.online"
 IMAGE_ID="ami-03265a0778a880afb"
 #INSTANCE_TYPE="t2.micro"
