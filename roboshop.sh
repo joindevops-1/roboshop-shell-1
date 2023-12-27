@@ -21,7 +21,7 @@ for instance in "${INSTANCES[@]}"
 do
     echo "creating instance for: $instance"
     INSTANCE_TYPE="t2.micro"
-    if [[ $instance == "mongodb" || $instance == "mysql" || $instance == "shipping" ]]
+    if [[ $instance == "mongodb"* || $instance == "mysql*"* || $instance == "shipping"* ]]
     then
         INSTANCE_TYPE="t3.small"
     fi
