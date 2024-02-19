@@ -58,7 +58,7 @@ curl -L https://github.com/docker/compose/releases/download/2.24.6/docker-compos
 
 chmod +x /usr/local/bin/docker-compose
 
-docker compose --version
+docker compose version
 
 VALIDATE $? "Installed docker compose"
 
